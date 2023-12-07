@@ -1,0 +1,2 @@
+nltk version 3.7 (and download of averaged_perceptron_tagger)
+textstat version 0.7.3
