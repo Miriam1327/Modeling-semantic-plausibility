@@ -1,5 +1,8 @@
+import matplotlib.pyplot as plt
 import nltk
+import numpy as np
 from textstat import textstat
+
 # nltk.download('averaged_perceptron_tagger')
 
 
@@ -39,11 +42,14 @@ class DataAnalysis:
         self.num_unique_tokens = self.unique_word_count()
         self.total_token_count = self.total_word_count()
         self.readability_scores = self.readability()
+        self.pos_mapping = self.pos_tags()
+        self.unique_pos = {}
+        self.pos_counts = self.count_pos_bigrams()
 
     def dataset_statistics(self):
         """
-        helper method to return number of rows and columns
-        :return: a tuple of the form (num_rows, num_columns)
+            helper method to return number of rows and columns
+            :return: a tuple of the form (num_rows, num_columns)
         """
         return len(self.file_content), len(self.file_content[0])
 
@@ -88,33 +94,33 @@ class DataAnalysis:
 
     def unique_word_count(self):
         """
-        this is a helper method to calculate the unique word count
-        :return: an integer representing the unique word count
+            this is a helper method to calculate the unique word count
+            :return: an integer representing the unique word count
         """
         return len(self.word_dict.keys())
 
     def plot_word_frequency(self, num_tokens):
         """
-        helper method plot the frequency distribution of the first num_tokens tokens
-        :param num_tokens: the number of tokens to plot the frequency of
+            helper method plot the frequency distribution of the first num_tokens tokens
+            :param num_tokens: the number of tokens to plot the frequency of
         """
         f_dict = nltk.FreqDist(self.all_tokens)
-        print("words appearing just once", len(f_dict.hapaxes()))
+        # print("words appearing just once", len(f_dict.hapaxes()))
         f_dict.plot(num_tokens)
 
     def average_word_length(self):
         """
-        this is a helper method to calculate the average word length
-        :return: a float representing the average word length, rounded to two decimals
+            this is a helper method to calculate the average word length
+            :return: a float representing the average word length, rounded to two decimals
         """
         # join all tokens to form one string without spaces
-        whole_string = ''.join(data.all_tokens)
+        whole_string = ''.join(self.all_tokens)
         return '{0:.3g}'.format(len(whole_string)/self.total_word_count())
 
     def pos_tags(self):
         """
-        helper method to assign POS tags to words in each phrase
-        :return: a list containing lists of words + POS tags in tuples (per phase)
+            helper method to assign POS tags to words in each phrase
+            :return: a list containing lists of words + POS tags in tuples (per phase)
         """
         token_list, pos_list = [], []
         # join all tokens to form one string without spaces
@@ -145,8 +151,8 @@ class DataAnalysis:
 
     def avg_readability(self):
         """
-        helper method to calculate the average readability score (using flesch reading ease)
-        :return: a float representing the average readability score
+            helper method to calculate the average readability score (using Flesch reading ease)
+            :return: a float representing the average readability score
         """
         readability_sum = 0
         for val in self.readability_scores.values():
@@ -156,8 +162,9 @@ class DataAnalysis:
 
     def plausibility_rating_count(self):
         """
-        helper method to count the ratio of plausible and implausible ratings
-        :return: a dictionary with plausible (1) and implausible (0) as keys, their corresponding counts as values
+            helper method to count the ratio of plausible and implausible ratings
+            :return: a dictionary with plausible (1) and implausible (0) ratings as keys,
+            their corresponding occurrence counts as values
         """
         plausibility_dict = dict()
         for line in self.file_content:
@@ -166,4 +173,55 @@ class DataAnalysis:
             else:
                 plausibility_dict[line[0]] = 1
         return plausibility_dict
+
+    def count_pos_bigrams(self):
+        """
+            helper method to count pos bigrams per line
+            :return: a dictionary of the form {bigram: count}
+        """
+        line_tags, pos, all_pos = [], [], []
+        pos_dict = dict()
+        # iterate over all (word, pos) tuples per line and store all possible values in a set + extract only pos values
+        for val in self.pos_mapping:
+            for tup in val:
+                all_pos.append(tup[1])
+                pos.append(tup[1])
+            line_tags.append(pos)
+            pos = []
+        self.unique_pos = set(all_pos)  # store all unique pos tags in set
+
+        # count tuple occurrences in file and store in dict
+        for instance in line_tags:
+            # join bigram as one string instead of list of two strings
+            first_bigram = ' '.join(instance[:2])
+            second_bigram = ' '.join(instance[1:])
+            # check whether bigram is already in dict and increase or set count accordingly
+            if first_bigram in pos_dict:
+                pos_dict[first_bigram] += 1
+            else:
+                pos_dict[first_bigram] = 1
+
+            if second_bigram in pos_dict:
+                pos_dict[second_bigram] += 1
+            else:
+                pos_dict[second_bigram] = 1
+        return pos_dict
+
+    def plot_pos_dict(self, filename):
+        """
+            helper method to plot the occurrences of pos-pairs occurring consecutively
+            :param filename: the filename to store the plot image at
+        """
+        # remove key-value pairs which occur less than 10 times for greater visibility
+        result = {key: self.pos_counts[key] for key in self.pos_counts.keys() if self.pos_counts[key] >= 10}
+
+        # create a bar plot with labels and occurrence counts
+        try:
+            x = np.arange(len(result.keys()))
+            plt.bar(x, list(result.values()))
+            plt.xticks(x, list(result.keys()), rotation=90)
+            plt.savefig(filename, bbox_inches='tight')
+            print("File {} successfully printed".format(filename))
+        except:
+            print("An error occurred, the file could not be created")
 
