@@ -12,7 +12,11 @@ def read_data2(filename):
     with open(filename, encoding="utf8") as f:
         for lines in f:
             # the train file is separates by semicolons instead of commas
-            line = lines.strip("\n").split(',')
+            if ";" in lines:  # my train.csv is semicolon-separated, the file of my teammates is not
+                line = lines.strip("\n").split(';')
+            else:
+                line = lines.strip("\n").split(',')
+
             if "pap" in filename:
                 temp_line=[]
                 if line[1] == "implausible":
@@ -52,7 +56,7 @@ class DataAnalysis2(DataAnalysis):
         """
         classes_num = {"0":0, "1":0}
         for i in self.file_content:
-            classes_num [i[0]] += 1
+            classes_num[i[0]] += 1
         return classes_num
     
     def pos_bi_count(self):
