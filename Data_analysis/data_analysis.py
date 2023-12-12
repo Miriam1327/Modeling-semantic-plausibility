@@ -8,16 +8,17 @@ from textstat import textstat
 
 def read_data(filename):
     """
-    helper method to read the file line by line
-    :param filename: the file to read data from - csv
-    :return: the complete data in a list
+        helper method to read the file line by line
+        :param filename: the file to read data from - csv
+        :return: the complete data in a list
+        @author: Miriam S.
     """
     complete_data = []
     # open the file with utf8 encoding, split it at the comma (it should be csv)
     with open(filename, encoding="utf8") as f:
         for lines in f:
             # the train file is separates by semicolons instead of commas
-            if "train.csv" in filename:
+            if ";" in lines:  # my train.csv is semicolon-separated, the file of my teammates is not
                 line = lines.strip("\n").split(';')
             else:
                 line = lines.strip("\n").split(',')
@@ -31,7 +32,7 @@ class DataAnalysis:
         This class provides methods to read-in and process the data from the input file
 
         The file was created on Mon Dec 4th 2023
-            it was last edited on Tue Dec 5th 2023
+            it was last edited on Tue Dec 12th 2023
 
         @author: Miriam S.
     """
@@ -50,6 +51,7 @@ class DataAnalysis:
         """
             helper method to return number of rows and columns
             :return: a tuple of the form (num_rows, num_columns)
+            @author: Miriam S.
         """
         return len(self.file_content), len(self.file_content[0])
 
@@ -57,6 +59,7 @@ class DataAnalysis:
         """
             helper methods to extract the word tokens (non-unique)
             :return: a list containing all word tokens
+            @author: Miriam S.
         """
         token_list = []
         for line in self.file_content:
@@ -70,6 +73,7 @@ class DataAnalysis:
         """
             this is a helper method to store the words in a dictionary
             :return: a dictionary storing all words with their word counts
+            @author: Miriam S.
         """
         word_dict = dict()
         for token in self.all_tokens:
@@ -85,6 +89,7 @@ class DataAnalysis:
         """
             this is a helper method to calculate the total word count
             :return: an integer representing the total word count
+            @author: Miriam S.
         """
         total_word_count = 0
         for val in self.word_dict.keys():
@@ -96,6 +101,7 @@ class DataAnalysis:
         """
             this is a helper method to calculate the unique word count
             :return: an integer representing the unique word count
+            @author: Miriam S.
         """
         return len(self.word_dict.keys())
 
@@ -103,15 +109,17 @@ class DataAnalysis:
         """
             helper method plot the frequency distribution of the first num_tokens tokens
             :param num_tokens: the number of tokens to plot the frequency of
+            @author: Miriam S.
         """
         f_dict = nltk.FreqDist(self.all_tokens)
-        # print("words appearing just once", len(f_dict.hapaxes()))
+        # print("words appearing just once", len(f_dict.hapaxes()))  # for word occurrences
         f_dict.plot(num_tokens)
 
     def average_word_length(self):
         """
             this is a helper method to calculate the average word length
             :return: a float representing the average word length, rounded to two decimals
+            @author: Miriam S.
         """
         # join all tokens to form one string without spaces
         whole_string = ''.join(self.all_tokens)
@@ -121,6 +129,7 @@ class DataAnalysis:
         """
             helper method to assign POS tags to words in each phrase
             :return: a list containing lists of words + POS tags in tuples (per phase)
+            @author: Miriam S.
         """
         token_list, pos_list = [], []
         # join all tokens to form one string without spaces
@@ -136,6 +145,7 @@ class DataAnalysis:
         """
             helper method to calculate the readability scores per line (using flesch reading ease)
             :return: a dictionary storing the text followed by the corresponding readability score
+            @author: Miriam S.
         """
         separate_lines = []
         readability_dict = dict()
@@ -153,6 +163,7 @@ class DataAnalysis:
         """
             helper method to calculate the average readability score (using Flesch reading ease)
             :return: a float representing the average readability score
+            @author: Miriam S.
         """
         readability_sum = 0
         for val in self.readability_scores.values():
@@ -165,6 +176,7 @@ class DataAnalysis:
             helper method to count the ratio of plausible and implausible ratings
             :return: a dictionary with plausible (1) and implausible (0) ratings as keys,
             their corresponding occurrence counts as values
+            @author: Miriam S.
         """
         plausibility_dict = dict()
         for line in self.file_content:
@@ -178,6 +190,7 @@ class DataAnalysis:
         """
             helper method to count pos bigrams per line
             :return: a dictionary of the form {bigram: count}
+            @author: Miriam S.
         """
         line_tags, pos, all_pos = [], [], []
         pos_dict = dict()
@@ -211,6 +224,7 @@ class DataAnalysis:
         """
             helper method to plot the occurrences of pos-pairs occurring consecutively
             :param filename: the filename to store the plot image at
+            @author: Miriam S.
         """
         # remove key-value pairs which occur less than 10 times for greater visibility
         result = {key: self.pos_counts[key] for key in self.pos_counts.keys() if self.pos_counts[key] >= 10}
