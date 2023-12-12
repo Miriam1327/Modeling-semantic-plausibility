@@ -41,13 +41,13 @@ class Abstractness_analysis(object):
     def ab_tags(self,num=2):
         if num==0:
             content=[i for i in self.content if i[1]=='implausible']
-            print('get implausible data unigram abstractness tag')
+            print('get implausible data abstractness tag')
         elif num==1:
             content=[i for i in self.content if i[1]=='plausible']
-            print('get plausible data unigram abstractness tag')
+            print('get plausible data abstractness tag')
         else:
             content=self.content
-            print('get all data unigram abstractness tag')
+            print('get all data abstractness tag')
 
         ab_mapping=[]
         for i in content:
