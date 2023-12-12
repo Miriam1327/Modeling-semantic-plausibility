@@ -1,8 +1,5 @@
 from data_analysis import DataAnalysis
-import os
 import matplotlib.pyplot as plt
-import nltk
-import numpy as np
 
 def read_data2(filename):
     """
@@ -45,6 +42,8 @@ class DataAnalysis2(DataAnalysis):
         self.classes_num = self.class_count()
         self.pos_bigrams_counts = self.pos_bi_count()
         self.pos_unigrams_counts = self.pos_uni_count()
+        self.tokens_bigrams_dict = self.count_bi_tokens()
+
     
     def class_count(self):
         """
@@ -120,27 +119,46 @@ class DataAnalysis2(DataAnalysis):
         #plt.tight_layout()
         plt.show()
 
+    def count_bi_tokens(self):
+        content=[]
+        for i in self.file_content:
+            content.append(i[1].split(' '))
 
-def get_filepath(name,classnum_name,file_name):
-    '''
-    param name: name of the dataset, pep-3k or pap
-    param classnum_name: for pap dataset, binary or multiclass
-    param file_name: dev, test, train
-    return: the str of apath of the file
-    '''
-    current_dir =os.path.realpath(".")
-    parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
-    filepath=os.path.abspath(os.path.join(parent_dir,'Data',name,'train-dev-test-split',classnum_name,file_name+'.csv'))
-    return filepath
+        tokens_bigrams_dict={}
+        temp_dict1={}
+        temp_dict2={}
+        for i in content:
+        # join bigram as one string instead of list of two strings
+            first_bigram = '-'.join([i[0], i[1]])
+            second_bigram = '-'.join([i[1], i[2]])
+            temp_dict1[first_bigram] = temp_dict1.get(first_bigram, 0) + 1
+            temp_dict2[second_bigram] = temp_dict2.get(second_bigram, 0) + 1
+        print(temp_dict1)
+        print(temp_dict2)
+        tokens_bigrams_dict['s-v']=dict(sorted(temp_dict1.items(), key=lambda item: item[1], reverse=True))
+        tokens_bigrams_dict['v-o']=dict(sorted(temp_dict2.items(), key=lambda item: item[1], reverse=True))
+        return tokens_bigrams_dict
+    
+    def plot_tokens_bi_distribution(self,n):
+        # Extract top 5 items from each category
+        top_5_s_v = dict(sorted(self.tokens_bigrams_dict['s-v'].items(), key=lambda x: x[1], reverse=True)[:n])
+        top_5_v_o = dict(sorted(self.tokens_bigrams_dict['v-o'].items(), key=lambda x: x[1], reverse=True)[:n])
 
-def get_dataset(*args):
-    '''
-    param arges: the str of file names
-    return: the complete data in a list
-    '''
-    filenames_list=[]
-    for i in args:
-        print('get file from:',i)
-        filenames_list.append(i)
-    data_set=DataAnalysis2(filenames_list)
-    return data_set
+        fig, axs = plt.subplots(2,1, figsize=(12, 6))
+
+        # Subplot 1
+        axs[0].bar(top_5_s_v.keys(), top_5_s_v.values(), color='skyblue')
+        axs[0].set_title('S-V Pairs')
+        axs[0].set_ylabel('Frequency')
+        axs[0].set_xticklabels(top_5_s_v.keys(), rotation=45, ha='right')
+
+        # Subplot 2
+        axs[1].bar(top_5_v_o.keys(), top_5_v_o.values(), color='lightcoral')
+        axs[1].set_title('V-O Pairs')
+        axs[1].set_ylabel('Frequency')
+        axs[1].set_xticklabels(top_5_v_o.keys(), rotation=45, ha='right')
+
+        plt.tight_layout()
+        plt.show()
+    
+
