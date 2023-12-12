@@ -15,11 +15,11 @@ Pep-3k
 6. Find s-v, v-o pair
 
 Pap 
-7. Basic information: number of data, the proportion of classes.
-8. Tokens: number of total tokens, number of unique tokens(Overall Statistics and Word Counts)
-9. Word Frequency Distribution
-10. Annotation Difference 
-11. Pos: number of unique pos, distribution of unique pos, distribution of bigram pos
-12. Abstractness
+7.  Basic information: number of data, the proportion of classes.
+8.  Tokens: number of total tokens, number of unique tokens(Overall Statistics and Word Counts)
+9.  Word Frequency Distribution
+10.  Annotation Difference 
+11.  Pos: number of unique pos, distribution of unique pos, distribution of bigram pos
+12.  Abstractness
 
 Check Data_analysis/data_analysis.py to see code for characteristics 1-5 from Miri, Data_analysis/data_analysis_liln.py for 6-8 and 11-12 from Li, and pap_analysis_Huirong.ipynb for 9-10 from Huirong. Also, Data_analysis/demo_display.ipynb is there for visualize our results.
