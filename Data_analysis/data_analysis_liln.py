@@ -133,8 +133,6 @@ class DataAnalysis2(DataAnalysis):
             second_bigram = '-'.join([i[1], i[2]])
             temp_dict1[first_bigram] = temp_dict1.get(first_bigram, 0) + 1
             temp_dict2[second_bigram] = temp_dict2.get(second_bigram, 0) + 1
-        print(temp_dict1)
-        print(temp_dict2)
         tokens_bigrams_dict['s-v']=dict(sorted(temp_dict1.items(), key=lambda item: item[1], reverse=True))
         tokens_bigrams_dict['v-o']=dict(sorted(temp_dict2.items(), key=lambda item: item[1], reverse=True))
         return tokens_bigrams_dict
