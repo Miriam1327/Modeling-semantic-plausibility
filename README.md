@@ -7,6 +7,7 @@ First check requirements.txt to see if any packages still need to be installed i
 Next, you may see folder Data_analysis in which our code for dataset analysis of 12 characteristics on pap and pep-3k are stored: 
 
 Pep-3k
+
 1. Overall Statistics and Word Counts
 2. Word and Phrase Statistics
 3. Word Frequency
@@ -14,7 +15,8 @@ Pep-3k
 5. Sentence Readability
 6. Find s-v, v-o pair
 
-Pap 
+Pap
+
 7.  Basic information: number of data, the proportion of classes.
 8.  Tokens: number of total tokens, number of unique tokens(Overall Statistics and Word Counts)
 9.  Word Frequency Distribution
