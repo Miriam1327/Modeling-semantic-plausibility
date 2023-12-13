@@ -15,13 +15,17 @@ Next, you may see folder Data_analysis in which our code for dataset analysis of
 4. Bigram POS-Tag Counts
 5. Sentence Readability
 
+
 * data_analysis_liln.py: for pap and pep-3k dataset analysis.
 * data_analysis_pap_abstractness.py: for abstractness analysis of pap dataset.
-* demo_display.ipynb: the display of partial analysis results on pap and pep-3k datasets. The analysis mainly includes:
-1. Basic information: number of data and binary classes.
+* demo_display.ipynb: the display of partial analysis results on pap and pep-3k datasets. To run the code in it, the data location is in: Modeling_Semantic_Plausibility/Data/pap, Modeling_Semantic_Plausibility/Data/pep-3k.
+
+The analysis mainly includes:
+1. Basic information: number of data and binary classes
 2. Tokens: number of total tokens, number of unique tokens, tokens pair
 3. Pos analysis: number of unigram pos, number of bigram pos
 4. Abstractness: unigram abstractness tag, bigram abstractness, tokens and abstractness
+
 
 * pap analysis_Huirong.ipynb: for pap analysis, mainly includes:
 5.  Word Frequency Distribution
