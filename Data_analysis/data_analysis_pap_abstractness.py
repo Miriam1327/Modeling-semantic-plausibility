@@ -1,16 +1,14 @@
 import matplotlib.pyplot as plt
 
-def read_data3(filename):
+def read_data(filepath):
     """
-    helper method to read the file line by line
     :param filename: the file to read data from - csv
-    :return: the complete data in a list
+    :return: the data in a list with ['text', 'label of text', 'abstractness tag']
+    @author: Li Lin.
     """
     complete_data = []
-    # open the file with utf8 encoding, split it at the comma (it should be csv)
-    with open(filename, encoding="utf8") as f:
+    with open(filepath, encoding="utf8") as f:
         for lines in f:
-            # the train file is separates by semicolons instead of commas
             line = lines.strip("\n").split('\t')[:3]
             complete_data.append(line)
 
@@ -18,9 +16,14 @@ def read_data3(filename):
 
 
 class Abstractness_analysis(object):
+    '''
+    To analyze the abstractness tags of the pap dataset.
+    The analysis mainly includes: unigram abstractness tag, bigram abstractness, tokens and abstractness
+    @author: Li Lin.
+    '''
     def __init__(self,filepath):
         self.filepath=filepath
-        self.content=read_data3(self.filepath)
+        self.content=read_data(self.filepath)
         self.abstractness=[i[2] for i in self.content]
         self.abstractness_counts=self.count_abstractness()
         self.ab_mapping=self.ab_tags()
@@ -99,17 +102,17 @@ class Abstractness_analysis(object):
         ax1.bar(labels1, values1, color='blue')
         ax1.set_title('Subject',fontsize=8)
         ax1.tick_params(axis='both', which='both', labelsize=8)
-        ax1.set_yticks(range(0, max(values1)+ 1, max(values1)//5) ) # Set y-axis ticks to intervals of 200
+        ax1.set_yticks(range(0, max(values1)+ 1, max(values1)//5) ) 
 
         ax2.bar(labels2, values2, color='green')
         ax2.set_title('Verb', fontsize=8)
         ax2.tick_params(axis='both', which='both', labelsize=8)
-        ax2.set_yticks(range(0, max(values1) + 1, max(values1)//5))  # Set y-axis ticks to intervals of 200
+        ax2.set_yticks(range(0, max(values1) + 1, max(values1)//5))  
 
         ax3.bar(labels3, values3, color='red')
         ax3.set_title('Object', fontsize=8)
         ax3.tick_params(axis='both', which='both', labelsize=8)
-        ax3.set_yticks(range(0, max(values1) + 1, max(values1)//5))  # Set y-axis ticks to intervals of 200
+        ax3.set_yticks(range(0, max(values1) + 1, max(values1)//5))  
 
         #plt.tight_layout()
         plt.show()
@@ -136,7 +139,6 @@ class Abstractness_analysis(object):
             first_bigram = '-'.join([i[0][1], i[1][1]])
             second_bigram = '-'.join([i[1][1], i[2][1]])
             third_bigram = '-'.join([i[0][1], i[2][1]])
-            # check whether bigram is already in dict and increase or set count accordingly
             temp_dict1[first_bigram] = temp_dict1.get(first_bigram, 0) + 1
             temp_dict2[second_bigram] = temp_dict2.get(second_bigram, 0) + 1
             temp_dict3[third_bigram] = temp_dict3.get(third_bigram, 0) + 1
@@ -246,7 +248,7 @@ class Abstractness_analysis(object):
                 height = bar.get_height()
                 ax.text(bar.get_x() + bar.get_width() / 2, height, f'{height}', ha='center', va='bottom')
 
-            ax.set_title(f'Category {key}')
+            ax.set_title(f'Abstract tag: {key}')
             ax.set_xlabel('Words')
             ax.set_ylabel('Frequency')
 
@@ -281,7 +283,7 @@ class Abstractness_analysis(object):
         # Adding legends and labels
         plt.legend()
         plt.title('Trend Chart')
-        plt.xlabel('Data Point')
+        plt.xlabel('Word Index')
         plt.ylabel('Value')
 
         # Display the plot
