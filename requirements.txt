@@ -1,5 +1,5 @@
-matplotlib version 3.6.1
-nltk version 3.7 (and download of averaged_perceptron_tagger)
-numpy version 1.22.3
-textstat version 0.7.3
-pandas version 1.5.3
+matplotlib==3.6.1
+nltk==3.7
+numpy==1.22.3
+pandas==2.0.1
+textstat==0.7.3
