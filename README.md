@@ -2,7 +2,7 @@
 
 This repository contains the code for data analysis as well as code for modeling semantic plausibility in winter 2023/2024 by Huirong Tan, Miriam Segiet, and Li Lin.
 
-When you need to setup a new environment, use `pip install -m requirements.txt` to load the required packages stored in the corresponding [**file**](st185873/Modeling_Semantic_Plausibility/requirements.txt).
+When you need to setup a new environment, use `pip install -m requirements.txt` to load the required packages stored in the corresponding file.
 
 Next, you may see folder Data_analysis in which our code for dataset analysis of characteristics on pap and pep-3k are stored: 
 
