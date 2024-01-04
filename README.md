@@ -8,6 +8,7 @@ Next, you may see folder Data_analysis in which our code for dataset analysis of
 
 ### Data_analysis folder contains these files:
 * data_analysis.py: for pep-3k dataset analysis. 
+
 The analysis mainly includes:
 
     1. Overall Statistics and Word Counts
@@ -20,6 +21,7 @@ The analysis mainly includes:
 * data_analysis_liln.py: for pap and pep-3k dataset analysis.
 * data_analysis_pap_abstractness.py: for abstractness analysis of pap dataset.
 * demo_display.ipynb: the display of partial analysis results on pap and pep-3k datasets. To run the code in it, the data location is in: Modeling_Semantic_Plausibility/Data/pap, Modeling_Semantic_Plausibility/Data/pep-3k. 
+
 The analysis mainly includes:
 
     1. Basic information: number of data and binary classes
@@ -29,6 +31,7 @@ The analysis mainly includes:
 
 
 * pap analysis_Huirong.ipynb: for pap analysis, mainly includes:
+
 The analysis mainly includes:
 
     5.  Word Frequency Distribution
