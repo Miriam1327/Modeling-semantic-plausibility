@@ -30,6 +30,16 @@ def read_data_of_both(filepath):
 
     return complete_data[1:]  # skip the header
 
+def get_filenames_list(*args):
+    '''
+    param arges: the str of file names
+    return: the complete data in a list
+    '''
+    filenames_list=[]
+    for i in args:
+        print('get file from:',i)
+        filenames_list.append(i)
+    return filenames_list
 
 class DataAnalysisCompare(DataAnalysis):
     '''
@@ -41,14 +51,13 @@ class DataAnalysisCompare(DataAnalysis):
     '''
     def __init__(self, *args):
         self.file_content = []
-        filenames_list=self.get_filenames_list(*args)
+        filenames_list=get_filenames_list(*args)
         for i in filenames_list:
             self.file_content+=read_data_of_both(i)
         self.all_tokens = self.extract_word_tokens()
         self.word_dict = self.store_words()
         self.num_unique_tokens = self.unique_word_count()
         self.total_token_count = self.total_word_count()
-        self.readability_scores = self.readability()
         self.pos_mapping = self.pos_tags()
         self.unique_pos = {}
         self.pos_counts = self.count_pos_bigrams()
@@ -56,17 +65,6 @@ class DataAnalysisCompare(DataAnalysis):
         self.pos_bigrams_counts = self.pos_bi_count()
         self.pos_unigrams_counts = self.pos_uni_count()
         self.tokens_bigrams_dict = self.count_bi_tokens()
-
-    def get_filenames_list(self,*args):
-        '''
-        param arges: the str of file names
-        return: the complete data in a list
-        '''
-        filenames_list=[]
-        for i in args:
-            print('get file from:',i)
-            filenames_list.append(i)
-        return filenames_list
 
     def class_count(self):
         """
