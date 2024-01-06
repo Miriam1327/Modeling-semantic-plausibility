@@ -39,8 +39,9 @@ class DataAnalysisCompare(DataAnalysis):
         3.Pos analysis: number of unigram pos, number of bigram pos.
     @author: Li Lin.
     '''
-    def __init__(self, filenames_list):
+    def __init__(self, *args):
         self.file_content = []
+        filenames_list=self.get_filenames_list(*args)
         for i in filenames_list:
             self.file_content+=read_data_of_both(i)
         self.all_tokens = self.extract_word_tokens()
@@ -56,7 +57,17 @@ class DataAnalysisCompare(DataAnalysis):
         self.pos_unigrams_counts = self.pos_uni_count()
         self.tokens_bigrams_dict = self.count_bi_tokens()
 
-    
+    def get_filenames_list(self,*args):
+        '''
+        param arges: the str of file names
+        return: the complete data in a list
+        '''
+        filenames_list=[]
+        for i in args:
+            print('get file from:',i)
+            filenames_list.append(i)
+        return filenames_list
+
     def class_count(self):
         """
         Count the quantities for each category separately.
