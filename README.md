@@ -6,7 +6,7 @@ This repository contains the code for data analysis as well as code for modeling
 
 The whole analysis and classification based on the pep-3k dataset is included in the folder `pep-3k_classification`. 
 This folder contains three separate files:
-* pep3k_data_analysis.py which contains the analysis of the pap-3k dataset
+* pep3k_data_analysis.py which contains the analysis of the pep-3k dataset
 * pep3k_keras.py which contains a classification model based on keras and additional training data from pap
 * pep3k_evaluation.py which contains the evaluation based on precision, recall, f1 score, and roc auc scores
 
