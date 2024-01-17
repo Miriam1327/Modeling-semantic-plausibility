@@ -8,10 +8,13 @@ This folder contains the following files:
 To run pap_llama2_train.ipynb code, the following operations are required: 
 
 1. Environment installation:
-    * ! pip install --extra-index-url https://download.pytorch.org/whl/test/cu118 llama-recipes
-    * ! pip install sentencepiece
-    * ! pip install  trl 
-    * ! pip install matplotlib
+    1. method 1:
+        * ! pip install --extra-index-url https://download.pytorch.org/whl/test/cu118 llama-recipes
+        * ! pip install sentencepiece
+        * ! pip install  trl 
+        * ! pip install matplotlib
+    2. method 2:
+        * pip install -m requirements.txt
 
 2. Data location:
     * Modeling_Semantic_Plausibility/Data/pap
