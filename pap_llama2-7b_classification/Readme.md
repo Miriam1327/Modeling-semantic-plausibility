@@ -3,6 +3,8 @@ This folder contains the following files:
 * pap_Dataloader.py: Process the pap data file and return a dataloader containing tokenized text and 0,1 labels.
 * evaluation.py: Get accuracy, precision, recall and f-score.
 * pap_llama2_Train.ipynb: Train the model and get classified inference results.
+* requirements.txt
+* Readme.md
 
 
 To run pap_llama2_train.ipynb code, the following operations are required: 
