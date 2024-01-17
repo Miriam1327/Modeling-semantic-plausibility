@@ -12,18 +12,18 @@ This folder contains three separate files:
 
 The whole analysis and classification based on the pep-3k dataset is included in the folder `pap_Analysis_and_Model`. 
 This folder contains two separate folders:
-### Data_analysis folder contains these files:
+* Data_analysis folder contains these files:
 
-* data_analysis_compare.py: for pap and pep-3k dataset analysis.
-* data_analysis_pap_abstractness.py: for abstractness analysis of pap dataset.
-* demo_display.ipynb: the display of partial analysis results on pap and pep-3k datasets. 
-* pap analysis_WA.ipynb: for pap analysis of Word Frequency Distribution and Annotation Difference.
+    * data_analysis_compare.py: for pap and pep-3k dataset analysis.
+    * data_analysis_pap_abstractness.py: for abstractness analysis of pap dataset.
+    * demo_display.ipynb: the display of partial analysis results on pap and pep-3k datasets. 
+    * pap analysis_WA.ipynb: for pap analysis of Word Frequency Distribution and Annotation Difference.
 
-### Models folder contains two models:
-* pap_roberta folder:
-    * pap_roberta.ipynb: model training based on Roberta with pap and extra training data from pep3k; model evaluation.
-* llama2_8bit_peft floder:
-    * see the Readme.md in this floader.
+* Models folder contains two models:
+    * pap_roberta folder:
+        * pap_roberta.ipynb: model training based on Roberta with pap and extra training data from pep3k; model evaluation.
+    * llama2_8bit_peft floder:
+        * see the Readme.md in this floader.
 
 
 
