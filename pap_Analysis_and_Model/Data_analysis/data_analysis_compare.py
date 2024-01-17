@@ -66,87 +66,6 @@ class DataAnalysisCompare(object):
         self.pos_unigrams_counts = self.pos_uni_count()
         self.tokens_bigrams_dict = self.count_bi_tokens()
         self.dataset_statistics= [len(self.file_content), len(self.file_content[0])]
-    
-    def pos_tags(self):
-        """
-            helper method to assign POS tags to words in each phrase
-            :return: a list containing lists of words + POS tags in tuples (per phase)
-            @author: Miriam S.
-        """
-        token_list, pos_list = [], []
-        # join all tokens to form one string without spaces
-        for line in self.file_content:
-            # split the phrase content into several tokens
-            token_list.append(line[1].split())
-
-        for i in token_list:
-            pos_list.append(nltk.pos_tag(i))
-        return pos_list
-    
-    def count_pos_bigrams(self):
-        """
-            helper method to count pos bigrams per line
-            :return: a dictionary of the form {bigram: count}
-            @author: Miriam S.
-        """
-        line_tags, pos, all_pos = [], [], []
-        pos_dict = dict()
-        # iterate over all (word, pos) tuples per line and store all possible values in a set + extract only pos values
-        for val in self.pos_mapping:
-            for tup in val:
-                all_pos.append(tup[1])
-                pos.append(tup[1])
-            line_tags.append(pos)
-            pos = []
-        self.unique_pos = set(all_pos)  # store all unique pos tags in set
-
-        for instance in line_tags:
-            # join bigram as one string instead of list of two strings
-            first_bigram = ' '.join(instance[:2])
-            second_bigram = ' '.join(instance[1:])
-            # check whether bigram is already in dict and increase or set count accordingly
-            if first_bigram in pos_dict:
-                pos_dict[first_bigram] += 1
-            else:
-                pos_dict[first_bigram] = 1
-
-            if second_bigram in pos_dict:
-                pos_dict[second_bigram] += 1
-            else:
-                pos_dict[second_bigram] = 1
-        return pos_dict
-    
-    def store_words(self):
-        """
-            this is a helper method to store the words in a dictionary
-            :return: a dictionary storing all words with their word counts
-            @author: Miriam S.
-        """
-        word_dict = dict()
-        for token in self.all_tokens:
-            # if a word is already part of the dictionary, increase its count by 1
-            # otherwise assign a count of 1
-            if token in word_dict.keys():
-                word_dict[token] += 1
-            else:
-                word_dict[token] = 1
-        return word_dict
-    
-    def extract_word_tokens(self):
-        """
-            helper methods to extract the word tokens (non-unique)
-            :return: a list containing all word tokens
-            @author: Miriam S.
-        """
-        token_list = []
-        for line in self.file_content:
-            # split the phrase content into several tokens
-            token_list.append(line[1].split())
-        # return a flattened version of the whole data to omit the nested lists
-        flattened_list = [token for sublist in token_list for token in sublist]
-        return flattened_list
-
-
 
     def class_count(self):
         """
@@ -261,5 +180,84 @@ class DataAnalysisCompare(object):
 
         plt.tight_layout()
         plt.show()
+        
+    def pos_tags(self):
+        """
+            helper method to assign POS tags to words in each phrase
+            :return: a list containing lists of words + POS tags in tuples (per phase)
+            @author: Miriam S.
+        """
+        token_list, pos_list = [], []
+        # join all tokens to form one string without spaces
+        for line in self.file_content:
+            # split the phrase content into several tokens
+            token_list.append(line[1].split())
+
+        for i in token_list:
+            pos_list.append(nltk.pos_tag(i))
+        return pos_list
+    
+    def count_pos_bigrams(self):
+        """
+            helper method to count pos bigrams per line
+            :return: a dictionary of the form {bigram: count}
+            @author: Miriam S.
+        """
+        line_tags, pos, all_pos = [], [], []
+        pos_dict = dict()
+        # iterate over all (word, pos) tuples per line and store all possible values in a set + extract only pos values
+        for val in self.pos_mapping:
+            for tup in val:
+                all_pos.append(tup[1])
+                pos.append(tup[1])
+            line_tags.append(pos)
+            pos = []
+        self.unique_pos = set(all_pos)  # store all unique pos tags in set
+
+        for instance in line_tags:
+            # join bigram as one string instead of list of two strings
+            first_bigram = ' '.join(instance[:2])
+            second_bigram = ' '.join(instance[1:])
+            # check whether bigram is already in dict and increase or set count accordingly
+            if first_bigram in pos_dict:
+                pos_dict[first_bigram] += 1
+            else:
+                pos_dict[first_bigram] = 1
+
+            if second_bigram in pos_dict:
+                pos_dict[second_bigram] += 1
+            else:
+                pos_dict[second_bigram] = 1
+        return pos_dict
+    
+    def store_words(self):
+        """
+            this is a helper method to store the words in a dictionary
+            :return: a dictionary storing all words with their word counts
+            @author: Miriam S.
+        """
+        word_dict = dict()
+        for token in self.all_tokens:
+            # if a word is already part of the dictionary, increase its count by 1
+            # otherwise assign a count of 1
+            if token in word_dict.keys():
+                word_dict[token] += 1
+            else:
+                word_dict[token] = 1
+        return word_dict
+    
+    def extract_word_tokens(self):
+        """
+            helper methods to extract the word tokens (non-unique)
+            :return: a list containing all word tokens
+            @author: Miriam S.
+        """
+        token_list = []
+        for line in self.file_content:
+            # split the phrase content into several tokens
+            token_list.append(line[1].split())
+        # return a flattened version of the whole data to omit the nested lists
+        flattened_list = [token for sublist in token_list for token in sublist]
+        return flattened_list
     
 
