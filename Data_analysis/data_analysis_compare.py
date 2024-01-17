@@ -1,5 +1,8 @@
-from data_analysis_pep import DataAnalysis
+
 import matplotlib.pyplot as plt
+import sys 
+sys.path.insert(0, '../pep-3k_classification')
+from data_analysis_pep import DataAnalysis
 
 def read_data_of_both(filepath):
     """
