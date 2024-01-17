@@ -13,10 +13,10 @@ This folder contains three separate files:
 
 ### Data_analysis folder contains these files:
 
-* data_analysis_liln.py: for pap and pep-3k dataset analysis.
+* data_analysis_compare.py: for pap and pep-3k dataset analysis.
 * data_analysis_pap_abstractness.py: for abstractness analysis of pap dataset.
 * demo_display.ipynb: the display of partial analysis results on pap and pep-3k datasets. To run the code in it, the data location is in: Modeling_Semantic_Plausibility/Data/pap, Modeling_Semantic_Plausibility/Data/pep-3k. 
-* pap analysis_Huirong.ipynb: for pap analysis of Word Frequency Distribution and Annotation Difference.
+* pap analysis_WordFreq_AnnoDiff.ipynb: for pap analysis of Word Frequency Distribution and Annotation Difference.
 
 ### pap_roberta folder contains:
 
