@@ -1,5 +1,4 @@
 from sklearn.metrics import f1_score, precision_score, recall_score, roc_auc_score
-from pep3k_keras_new import ClassifierNew
 from pep3k_keras import Classifier
 
 
@@ -24,7 +23,7 @@ class Evaluation:
         :param train_pap_bin: the name of the training file from pap (binary) used as additional data (train.csv)
         @author: Miriam S.
         """
-        self.classifier = ClassifierNew(filename_train, filename_test, filename_dev,
+        self.classifier = Classifier(filename_train, filename_test, filename_dev,
                                      dev_pap_bin, train_pap_bin)
         self.true_labels = self.classifier.labels_test
         self.predicted_labels = self.classifier.predict_plausibility()
@@ -60,18 +59,4 @@ class Evaluation:
         @author: Miriam S.
         """
         return roc_auc_score(self.true_labels, self.predicted_labels)
-
-
-if __name__ == "__main__":
-    eval = Evaluation("../pep-3k/train-dev-test-split/train.csv",
-                      "../pep-3k/train-dev-test-split/test.csv",
-                      "../pep-3k/train-dev-test-split/dev.csv",
-                      "../binary/dev.csv",
-                      "../binary/train.csv")
-    print(eval.true_labels)
-    print(eval.predicted_labels)
-    print("prec", eval.precision())
-    print("rec", eval.recall())
-    print("f1", eval.f1_score())
-    print("auc roc", eval.roc_auc())
 
