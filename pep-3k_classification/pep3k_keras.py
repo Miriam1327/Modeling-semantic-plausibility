@@ -11,15 +11,12 @@ from pep3k_data_analysis import DataAnalysis
 class Classifier:
     """
         This class provides methods to read-in and process the data from the input file
-
         The file was created on     Wed Jan 10th 2024
-            it was last edited on   Mon Jan 15th 2024
-
+            it was last edited on   Wed Jan 17th 2024
         @author: Miriam S.
     """
     def __init__(self, filename_train, filename_test, filename_dev,
-                 pap_dev_bin, pap_train_bin,
-                 pap_dev_multi, pap_train_multi):
+                 pap_dev_bin, pap_train_bin):
         """
         this is the constructor for the class Classifier containing several important variables
         it calls the class DataAnalysis to access the general file contents
@@ -28,8 +25,6 @@ class Classifier:
         :param filename_dev: the name of the development file from pep-3k (dev.csv)
         :param pap_dev_bin: the name of the development file from pap (binary) used as additional data (dev.csv)
         :param pap_train_bin: the name of the training file from pap (binary) used as additional data (train.csv)
-        :param pap_dev_multi: the name of the development file from pap (multiclass) used as additional data (dev.csv)
-        :param pap_train_multi: the name of the training file from pap (multiclass) used as additional data (train.csv)
         @author: Miriam S.
         """
         # get the data from the DataAnalysis class and store it in variables
@@ -40,26 +35,17 @@ class Classifier:
         # binary pap
         self.data_dev_pap_bin = DataAnalysis(pap_dev_bin)
         self.data_train_pap_bin = DataAnalysis(pap_train_bin)
-        # multiclass pap
-        self.data_dev_pap_multi = DataAnalysis(pap_dev_multi)
-        self.data_train_pap_multi = DataAnalysis(pap_train_multi)
         # extract labels from pep-3k and store them in variables
         self.labels_test = self.extract_data(filename_test)[0]
         self.labels_train = self.extract_data(filename_train)[0]
         self.labels_dev = self.extract_data(filename_dev)[0]
         # extract texts from pep-3k and pap and store them in variables
-        self.text_train = self.extract_data(filename_train)[1] + \
-                          self.prepare_pap_bin(pap_train_bin)[1] + \
-                          self.prepare_pap_multi(pap_train_multi)[1]
-        self.text_dev = self.extract_data(filename_dev)[1] + \
-                        self.prepare_pap_bin(pap_dev_bin)[1] + \
-                        self.prepare_pap_multi(pap_dev_multi)[1]
+        self.text_train = self.extract_data(filename_train)[1] + self.prepare_pap_bin(pap_train_bin)[1]
+        self.text_dev = self.extract_data(filename_dev)[1] + self.prepare_pap_bin(pap_dev_bin)[1]
         self.text_test = self.extract_data(filename_test)[1]
         # extract labels from pap (binary and multiclass) and store them in variables
         self.labels_train_pap_bin = self.prepare_pap_bin(pap_train_bin)[0]
         self.labels_dev_pap_bin = self.prepare_pap_bin(pap_dev_bin)[0]
-        self.labels_train_pap_multi = self.prepare_pap_bin(pap_train_multi)[0]
-        self.labels_dev_pap_multi = self.prepare_pap_bin(pap_dev_multi)[0]
 
     def extract_data(self, filename):
         """
@@ -111,31 +97,6 @@ class Classifier:
         all_labels_pap = np.array(list(map(lambda label: 0 if label == 'implausible' else 1, all_labels_pap)))
         return all_labels_pap, all_texts_pap
 
-    def prepare_pap_multi(self, filename):
-        """
-        method to extract texts and labels from the pap multiclass dataset in the different files
-        this data is used for additional training data
-        :param filename: the name of the corresponding file from pap (either train.csv, test.csv, or dev.csv)
-        :return: a tuple containing two separate lists with labels and texts
-        @author: Miriam S.
-        """
-        all_texts_pap, all_labels_pap = [], []
-        # check for the correct file name,
-        # extract the second part from the list (original_label) and append it to a new list
-        # extract the first part from the list (text) and append it to a new list
-        if "train.csv" in filename:
-            for i in self.data_train_pap_multi.file_content:
-                all_labels_pap.append(i[1])
-                all_texts_pap.append(i[0])
-        if "dev.csv" in filename:
-            for i in self.data_dev_pap_multi.file_content:
-                all_labels_pap.append(i[1])
-                all_texts_pap.append(i[0])
-        # pap labels are assigned to "implausible" and "plausible"
-        # these are converted to 0 and 1 respectively to facilitate computation
-        all_labels_pap = np.array(list(map(lambda label: 0 if label == 'implausible' else 1, all_labels_pap)))
-        return all_labels_pap, all_texts_pap
-
     def word_counter(self):
         """
         method to count occurrences of individual words in the training instances
@@ -160,11 +121,9 @@ class Classifier:
         # train and dev labels are concatenated as numpy arrays
         # train pep-3k and pap as well as dev data are appended for additional data
         train_labels = np.concatenate((np.array(self.labels_train),
-                                       np.array(self.labels_train_pap_bin),
-                                       np.array(self.labels_train_pap_multi)))
+                                       np.array(self.labels_train_pap_bin)))
         dev_labels = np.concatenate((np.array(self.labels_dev),
-                                     np.array(self.labels_dev_pap_bin),
-                                     np.array(self.labels_dev_pap_multi)))
+                                     np.array(self.labels_dev_pap_bin)))
         train_seqs = self.text_train
         dev_seqs = self.text_dev
 
@@ -218,4 +177,3 @@ class Classifier:
         predictions = [1 if pr >= 0.5 else 0 for pr in predictions]
 
         return predictions
-
