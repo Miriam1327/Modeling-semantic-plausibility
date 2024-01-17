@@ -7,13 +7,12 @@ class Evaluation:
         This class provides methods to evaluate the performance of the classifier
 
         The file was created on     Thu Jan 11th 2024
-            it was last edited on   Mon Jan 15th 2024
+            it was last edited on   Wed Jan 17th 2024
 
         @author: Miriam S.
     """
     def __init__(self, filename_train, filename_test, filename_dev,
-                 dev_pap_bin, train_pap_bin,
-                 dev_pap_multi, train_pap_multi):
+                 dev_pap_bin, train_pap_bin):
         """
         this is the constructor for the class Evaluation containing several important variables
         it calls the class Classifier to access the classifier and the corresponding predictions
@@ -22,13 +21,10 @@ class Evaluation:
         :param filename_dev: the name of the development file
         :param dev_pap_bin: the name of the development file from pap (binary) used as additional data (dev.csv)
         :param train_pap_bin: the name of the training file from pap (binary) used as additional data (train.csv)
-        :param dev_pap_multi: the name of the development file from pap (multiclass) used as additional data (dev.csv)
-        :param train_pap_multi: the name of the training file from pap (multiclass) used as additional data (train.csv)
         @author: Miriam S.
         """
         self.classifier = Classifier(filename_train, filename_test, filename_dev,
-                                     dev_pap_bin, train_pap_bin,
-                                     dev_pap_multi, train_pap_multi)
+                                     dev_pap_bin, train_pap_bin)
         self.true_labels = self.classifier.labels_test
         self.predicted_labels = self.classifier.predict_plausibility()
 
