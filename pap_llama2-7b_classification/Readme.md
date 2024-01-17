@@ -2,7 +2,7 @@ This folder contains the following files:
 * llama2_Model.py: Get the Peftmodel and perform 8bit Quantization on the model.
 * pap_Dataloader.py: Process the pap data file and return a dataloader containing tokenized text and 0,1 labels.
 * evaluation.py: Get accuracy, precision, recall and f-score.
-* pap_llama2_Train.ipynb: Train the model and get binary classification inference results.
+* pap_llama2_Train.ipynb: Train the model and get display of binary classification inference results.
 * requirements.txt
 * Readme.md
 
