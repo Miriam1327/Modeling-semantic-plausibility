@@ -36,7 +36,7 @@ The analysis mainly includes:
     4. Abstractness: unigram abstractness tag, bigram abstractness, tokens and abstractness
 
 
-* pap analysis_Huirong.ipynb: for pap analysis, mainly includes:
+* pap analysis_Huirong.ipynb: for pap analysis.
 
 The analysis mainly includes:
 
