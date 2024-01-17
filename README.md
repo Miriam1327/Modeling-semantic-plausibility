@@ -10,17 +10,20 @@ This folder contains three separate files:
 * pep3k_keras.py which contains a classification model based on keras and additional training data from pap
 * pep3k_evaluation.py which contains the evaluation based on precision, recall, f1 score, and roc auc scores
 
-
+The whole analysis and classification based on the pep-3k dataset is included in the folder `pap_Analysis_and_Model`. 
+This folder contains two separate folders:
 ### Data_analysis folder contains these files:
 
 * data_analysis_compare.py: for pap and pep-3k dataset analysis.
 * data_analysis_pap_abstractness.py: for abstractness analysis of pap dataset.
-* demo_display.ipynb: the display of partial analysis results on pap and pep-3k datasets. To run the code in it, the data location is in: Modeling_Semantic_Plausibility/Data/pap, Modeling_Semantic_Plausibility/Data/pep-3k. 
-* pap analysis_Huirong.ipynb: for pap analysis of Word Frequency Distribution and Annotation Difference.
+* demo_display.ipynb: the display of partial analysis results on pap and pep-3k datasets. 
+* pap analysis_WA.ipynb: for pap analysis of Word Frequency Distribution and Annotation Difference.
 
-### pap_roberta folder contains:
-
-* pap_roberta.ipynb: model training based on Roberta with pap and extra training data from pep3k; model evaluation.
+### Models folder contains two models:
+* pap_roberta folder:
+    * pap_roberta.ipynb: model training based on Roberta with pap and extra training data from pep3k; model evaluation.
+* llama2_8bit_peft floder:
+    * see the Readme.md in this floader.
 
 
 
