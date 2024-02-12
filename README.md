@@ -4,13 +4,15 @@ This repository contains the code for data analysis as well as code for modeling
 
 > When you need to setup a new environment, use `pip install -r requirements.txt` to load the required packages stored in the corresponding file. If not already satisfied, make sure to download the tagger part of the nltk library by using `nltk.download('averaged_perceptron_tagger')`.
 
-The whole analysis and classification based on the pep-3k dataset is included in the folder `pep-3k_classification`. 
-This folder contains three separate files:
-* pep3k_data_analysis.py which contains the analysis of the pep-3k dataset
-* pep3k_keras.py which contains a classification model based on keras and additional training data from pap
+The whole analysis and classification based on the PEP-3K dataset is included in the folder `pep-3k_classification`. 
+This folder contains five separate files:
+* pep3k_data_analysis.py which contains the analysis of the PEP-3K dataset
+* pep3k_keras.py which contains a classification model based on keras and additional training data from PAP
 * pep3k_evaluation.py which contains the evaluation based on precision, recall, f1 score, and roc auc scores
+* pep3k_keras_data_prep.py which is similar to pep3k_keras.py but adapts the PEP-3K and PAP files according to given rules
+* pep3k_evaluation_data_prep.py which contains the evaluation based on precision, recall, f1 score, and roc auc scores given the data adaption 
 
-The whole analysis and classification based on the pep-3k dataset is included in the folder `pap_Analysis_and_Model`. 
+The whole analysis and classification based on the PAP dataset is included in the folder `pap_Analysis_and_Model`. 
 This folder contains two separate folders:
 * Data_analysis folder contains these files:
 
