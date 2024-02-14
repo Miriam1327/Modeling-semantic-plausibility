@@ -6,7 +6,7 @@
 * pep3k_llama2_Train.ipynb: The code for model fine-tuning using the pep3k training dataset, and the display of semantic plausibility binary classification results for the pep3k test dataset.
 * pap&pep3k_llama2_Train.ipynb: The code for model fine-tuning using the pap+pep3k training dataset, and the display of semantic plausibility binary classification results for the pap and pep3k test datasets.
 * requirements.txt
-* Readme.md
+* README.md
 * `result_analysis` folder contains these files:
     
     * pap_preds_filter.txt: classified results by the first pap fine-tuned llama2-7b model.
