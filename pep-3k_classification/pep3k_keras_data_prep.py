@@ -4,39 +4,55 @@ from keras import regularizers
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 from keras.models import Sequential
-from keras.layers import Embedding, Dense, Dropout, Bidirectional, LSTM
+from keras.layers import Embedding, LSTM, Dense, Bidirectional, Dropout
 from pep3k_data_analysis import DataAnalysis
+from pep3k_data_preparation import Preparation
 
 
 class Classifier:
     """
         This class provides methods to read-in and process the data from the input file
-        The file was created on     Wed Jan 10th 2024
-            it was last edited on   Thu Feb  1st 2024
+        The file was created on     Wed Jan 24th 2024
+            it was last edited on   Mon Jan 29th 2024
         @author: Miriam S.
     """
     def __init__(self, filename_train, filename_test, filename_dev,
-                 pap_dev_bin, pap_train_bin, pap_test_bin):
+                 pap_dev_bin, pap_train_bin, pap_test_bin, file='pep'):
         """
         this is the constructor for the class Classifier containing several important variables
         it calls the class DataAnalysis to access the general file contents
+        it calls the class Preparation to access the adapted file contents
         :param filename_train: the name of the training file from pep3k (train.csv)
         :param filename_test: the name of the test file from pep-3k (test.csv)
         :param filename_dev: the name of the development file from pep-3k (dev.csv)
         :param pap_dev_bin: the name of the development file from pap (binary) used as additional data (dev.csv)
         :param pap_train_bin: the name of the training file from pap (binary) used as additional data (train.csv)
         :param pap_test_bin: the name of the test file from pap (binary) (test.csv)
+        :param file: name of the file used as test
+                     can be 'pep' (default) where s-v-o triples have NO third-person singular s for the verb
+                     can be 'pap' where s-v-o triples have third-person singular s for the verb
         @author: Miriam S.
         """
-        # get the data from the DataAnalysis class and store it in variables
-        # pep-3k
-        self.data_train = DataAnalysis(filename_train)
-        self.data_test = DataAnalysis(filename_test)
-        self.data_dev = DataAnalysis(filename_dev)
-        # binary pap
-        self.data_dev_pap_bin = DataAnalysis(pap_dev_bin)
-        self.data_train_pap_bin = DataAnalysis(pap_train_bin)
-        self.data_test_pap_bin = DataAnalysis(pap_test_bin)
+        self.file = file
+        # if variable is 'pep' use pep files with DataAnalysis where no change is made
+        #                      use pap files with Preparation to remove s from verbs
+        if self.file == 'pep':
+            self.data_train = DataAnalysis(filename_train)
+            self.data_test = DataAnalysis(filename_test)
+            self.data_dev = DataAnalysis(filename_dev)
+            self.data_dev_pap_bin = Preparation(pap_dev_bin).prepare_pap()
+            self.data_train_pap_bin = Preparation(pap_train_bin).prepare_pap()
+            self.data_test_pap_bin = Preparation(pap_test_bin).prepare_pap()
+        # if variable is 'pap' use pap files with DataAnalysis where no change is made
+        #                      use pep files with Preparation to include s for verbs
+        else:
+            self.data_dev_pap_bin = DataAnalysis(pap_dev_bin)
+            self.data_train_pap_bin = DataAnalysis(pap_train_bin)
+            self.data_test_pap_bin = DataAnalysis(pap_test_bin)
+            self.data_train = Preparation(filename_train).prepare_pep3k()
+            self.data_test = Preparation(filename_test).prepare_pep3k()
+            self.data_dev = Preparation(filename_dev).prepare_pep3k()
+
         # extract labels from pep-3k and store them in variables
         self.labels_test = self.extract_data(filename_test)[0]
         self.labels_train = self.extract_data(filename_train)[0]
@@ -59,21 +75,27 @@ class Classifier:
         @author: Miriam S.
         """
         all_texts, all_labels = [], []
+        data = None
+        if self.file == 'pep':
+            if "train.csv" in filename:
+                data = self.data_train.file_content
+            if "test.csv" in filename:
+                data = self.data_test.file_content
+            if "dev.csv" in filename:
+                data = self.data_dev.file_content
+        else:
+            if "train.csv" in filename:
+                data = self.data_train
+            if "test.csv" in filename:
+                data = self.data_test
+            if "dev.csv" in filename:
+                data = self.data_dev
         # check for the correct file name, extract the second part from the list (text) and append it to a new list
         # extract the first part of the list (label) and append it to a list as an integer
-        if "train.csv" in filename:
-            for i in self.data_train.file_content:
-                # labels are converted into integers to facilitate usage (e.g., f1 calculation)
-                all_labels.append(int(i[0]))
-                all_texts.append(i[1])
-        if "test.csv" in filename:
-            for i in self.data_test.file_content:
-                all_labels.append(int(i[0]))
-                all_texts.append(i[1])
-        if "dev.csv" in filename:
-            for i in self.data_dev.file_content:
-                all_labels.append(int(i[0]))
-                all_texts.append(i[1])
+        for i in data:
+            # labels are converted into integers to facilitate usage (e.g., f1 calculation)
+            all_labels.append(int(i[0]))
+            all_texts.append(i[1])
         return all_labels, all_texts
 
     def prepare_pap_bin(self, filename):
@@ -85,19 +107,31 @@ class Classifier:
         @author: Miriam S.
         """
         all_texts_pap, all_labels_pap = [], []
-        # check for the correct file name,
-        # extract the second part from the list (original_label) and append it to a new list
-        # extract the first part from the list (text) and append it to a new list
-        if "train.csv" in filename:
-            for i in self.data_train_pap_bin.file_content:
-                all_labels_pap.append(i[1])
-                all_texts_pap.append(i[0])
-        if "test.csv" in filename:
-            for i in self.data_test_pap_bin.file_content:
-                all_labels_pap.append(i[1])
-                all_texts_pap.append(i[0])
-        if "dev.csv" in filename:
-            for i in self.data_dev_pap_bin.file_content:
+        data = None
+        if self.file == 'pep':
+            if "train.csv" in filename:
+                data = self.data_train_pap_bin
+            if "test.csv" in filename:
+                data = self.data_test_pap_bin
+            if "dev.csv" in filename:
+                data = self.data_dev_pap_bin
+            # check for the correct file name
+            # extract the second part from the list (original_label) and append it to a new list
+            # extract the first part from the list (text) and append it to a new list
+            for i in data:
+                all_labels_pap.append(i[0])
+                all_texts_pap.append(i[1])
+        else:
+            if "train.csv" in filename:
+                data = self.data_train_pap_bin.file_content
+            if "test.csv" in filename:
+                data = self.data_test_pap_bin.file_content
+            if "dev.csv" in filename:
+                data = self.data_dev_pap_bin.file_content
+            # check for the correct file name
+            # extract the second part from the list (original_label) and append it to a new list
+            # extract the first part from the list (text) and append it to a new list
+            for i in data:
                 all_labels_pap.append(i[1])
                 all_texts_pap.append(i[0])
         # pap labels are assigned to "implausible" and "plausible"
@@ -150,7 +184,10 @@ class Classifier:
         dev_padded = pad_sequences(dev_seqs)
 
         # prepare test data (data for which we want to make predictions later)
-        test_seqs = tokenizer.texts_to_sequences(self.text_test)
+        if self.file == 'pep':
+            test_seqs = tokenizer.texts_to_sequences(self.text_test)
+        else:
+            test_seqs = tokenizer.texts_to_sequences(self.text_test_pap)
         test_padded = pad_sequences(test_seqs)
 
         # create a sequential model with the following components
