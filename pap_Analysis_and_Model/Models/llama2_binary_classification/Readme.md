@@ -16,7 +16,7 @@
     * llama2_analysis.ipynb: display of model results analysis.
 
 
-**To run pap_llama2_train.ipynb/pep3k_llama2_Train.ipynb/pap&pep3k_llama2_Train.ipynb  code, the following operations are required: **
+**To run pap_llama2_train.ipynb/pep3k_llama2_Train.ipynb/pap&pep3k_llama2_Train.ipynb  code, the following operations are required:**
 1. Install environment required libraries:
     1. option 1:
         * pip install --extra-index-url https://download.pytorch.org/whl/test/cu118 llama-recipes
