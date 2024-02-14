@@ -24,7 +24,7 @@ This folder contains two separate folders:
 * `Models` folder contains two models:
     * pap_roberta folder:
         * pap_roberta.ipynb: model training based on Roberta with pap and extra training data from pep3k; model evaluation.
-    * llama2_8bit_peft floder:
+    * llama2_binary_classification floder:
         * see the Readme.md in this floder.
 
 
