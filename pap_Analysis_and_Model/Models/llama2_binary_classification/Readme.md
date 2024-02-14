@@ -1,4 +1,4 @@
-This folder contains one folder and the following files:
+**This folder contains one folder and the following files:**
 * llama2_Model.py: Get the peft llama2-7b model and perform 8bit Quantization on the model.
 * pap_Dataloader.py: Process the pap data file and return a dataloader containing tokenized text and 0,1 labels.
 * evaluation.py: Get accuracy, precision, recall and f-score.
@@ -15,8 +15,8 @@ This folder contains one folder and the following files:
     * data_wrong_analysis.py: for model misclassified results analysis.
     * llama2_analysis.ipynb: display of model results analysis.
 
-To run pap_llama2_train.ipynb/pep3k_llama2_Train.ipynb/pap&pep3k_llama2_Train.ipynb  code, the following operations are required: 
 
+**To run pap_llama2_train.ipynb/pep3k_llama2_Train.ipynb/pap&pep3k_llama2_Train.ipynb  code, the following operations are required: **
 1. Install environment required libraries:
     1. option 1:
         * pip install --extra-index-url https://download.pytorch.org/whl/test/cu118 llama-recipes
