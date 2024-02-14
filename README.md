@@ -12,16 +12,16 @@ This folder contains five separate files:
 * pep3k_keras_data_prep.py which is similar to pep3k_keras.py but adapts the PEP-3K and PAP files according to given rules
 * pep3k_evaluation_data_prep.py which contains the evaluation based on precision, recall, f1 score, and roc auc scores given the data adaption 
 
-The whole analysis and classification based on the PAP dataset is included in the folder `pap_Analysis_and_Model`. 
+The `pap_Analysis_and_Model` folder mainly includes data analysis of the PAP dataset and the implementation of two semantic plausibility classification models, as well as part of the pep3k dataset analysis and model classification.
 This folder contains two separate folders:
-* Data_analysis folder contains these files:
+* `Data_analysis` folder contains these files:
 
     * data_analysis_compare.py: for pap and pep-3k dataset analysis.
     * data_analysis_pap_abstractness.py: for abstractness analysis of pap dataset.
     * demo_display.ipynb: the display of partial analysis results on pap and pep-3k datasets. 
     * pap analysis_WA.ipynb: for pap analysis of Word Frequency Distribution and Annotation Difference.
 
-* Models folder contains two models:
+* `Models` folder contains two models:
     * pap_roberta folder:
         * pap_roberta.ipynb: model training based on Roberta with pap and extra training data from pep3k; model evaluation.
     * llama2_8bit_peft floder:
