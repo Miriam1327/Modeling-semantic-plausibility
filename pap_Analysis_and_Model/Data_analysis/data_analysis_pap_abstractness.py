@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 
 def read_data(filepath):
     """
-    :param filename: the file to read data from - csv
+    :param filepath: the filepath to read data from - csv
     :return: the data in a list with ['text', 'label of text', 'abstractness tag']
     @author: Li Lin.
     """

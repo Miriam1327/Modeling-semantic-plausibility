@@ -3,7 +3,7 @@ import nltk
 
 def read_data_of_both(filepath):
     """
-    :param filename: the file path
+    :param filepath: the file path
     :return: the complete data in a list with ['label of text', 'text']
     @author: Li Lin.
     """
@@ -11,12 +11,7 @@ def read_data_of_both(filepath):
     # open the file with utf8 encoding, split it at the comma (it should be csv)
     with open(filepath, encoding="utf8") as f:
         for lines in f:
-            # the train file is separates by semicolons instead of commas
-            # if ";" in lines:  # my train.csv is semicolon-separated, the file of my teammates is not
-            #     line = lines.strip("\n").split(';')
-            # else:
             line = lines.strip("\n").split(',')
-
             if "pep-3k/" in filepath:
                 complete_data.append(line)
             else:
